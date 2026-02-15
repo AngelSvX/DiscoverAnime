@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import type { IAnimeData, IOnlyAnimeData } from "../api/types";
+import type { IAnimeData } from "../api/types";
 import { useAnimeApi } from "../api/animeService";
 
 

@@ -1,5 +1,5 @@
 import {computed, ref} from 'vue'
-import type {IAnimeData, IAnimeResponse, IOnlyAnimeData} from './types'
+import type { IAnimeResponse, IOnlyAnimeData} from './types'
 import axios from 'axios'
 
 const API_BASE = import.meta.env.VITE_API_URL
