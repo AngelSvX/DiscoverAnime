@@ -6,7 +6,7 @@
       <h1
         class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white"
       >
-        Discover Anime
+        Top Animes around the world.
       </h1>
 
       <p class="mt-3 text-gray-600 dark:text-zinc-400 max-w-2xl">
@@ -31,7 +31,7 @@
         class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
       >
         <MiniAnimeCard
-          v-for="anime in animeStore.animes"
+          v-for="anime in animeStore.favoriteAnimes"
           :key="anime.mal_id"
           :anime="anime"
         />
@@ -48,6 +48,6 @@ import MiniAnimeCard from "../ui/MiniAnimeCard.vue";
 const animeStore = useAnimeStore();
 
 onMounted(async () => {
-  await animeStore.loadAnimes();
+  await animeStore.loadFavoriteAnime();
 });
 </script>

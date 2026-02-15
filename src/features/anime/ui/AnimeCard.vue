@@ -6,7 +6,7 @@
         class="w-full h-[500px] object-cover opacity-40"
       />
 
-      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/70 to-transparent"></div>
+      <div class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-900/70 to-transparent"></div>
 
       <div class="absolute bottom-10 left-10 max-w-4xl">
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
