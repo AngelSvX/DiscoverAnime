@@ -2,7 +2,6 @@
   <div
     class="group relative rounded-2xl overflow-hidden bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
   >
-
     <div class="relative">
       <img
         :src="anime.images.jpg.large_image_url"
@@ -40,7 +39,7 @@
         class="flex justify-between text-xs text-gray-500 dark:text-zinc-400"
       >
         <span>{{ anime.type }}</span>
-        <span>{{ anime.episodes ?? '?' }} eps</span>
+        <span>{{ anime.episodes ?? "?" }} eps</span>
       </div>
 
       <div class="flex flex-wrap gap-2 pt-1">
@@ -52,16 +51,32 @@
           {{ genre.name }}
         </span>
       </div>
+        <button
+          class="text-white text-sm font-bold text-center w-full my-4 py-1 bg-indigo-700 rounded-md"
+          @click="goToAnime"
+        >
+          Watch
+        </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IAnimeData } from '../api/types'
+import { useRouter } from "vue-router";
+import type { IAnimeData } from "../api/types";
 
 interface Props {
-  anime: IAnimeData
+  anime: IAnimeData;
 }
 
-defineProps<Props>()
+const props = defineProps<Props>();
+const router = useRouter()
+
+const goToAnime = () => {
+  router.push({
+    name: 'anime-details',
+    params: {id: props.anime.mal_id}
+  })
+}
+
 </script>

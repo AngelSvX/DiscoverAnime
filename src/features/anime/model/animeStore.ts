@@ -1,19 +1,13 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import type { IAnimeData } from "../api/types";
+import type { IAnimeData, IOnlyAnimeData } from "../api/types";
 import { useAnimeApi } from "../api/animeService";
 
 
 export const useAnimeStore = defineStore('anime', () => {
     // Estado
     const animes = ref<IAnimeData[]>([])
-    // const currentAnime = ref<IAnimeData | null>(null)
-    const selectedAnimeId = ref<number | null>(null)
-
-    // Computed
-    const selectedAnime = computed(() => 
-        animes.value.find(u => u.mal_id === selectedAnimeId.value) ?? null
-    )
+    const currentAnime = ref<IAnimeData | null>(null)
 
     const animeCount = computed(() => 
         animes.value.length
@@ -28,21 +22,27 @@ export const useAnimeStore = defineStore('anime', () => {
         } catch (err) {
             console.error('Error loading animes: ', err)
         }
-
     }
 
-    // TODO: Pendiente crear el select by id
+    const loadAnimeById = async (id: string) => {
+        const { fetchAnimeById } = useAnimeApi()
+        try {
+            currentAnime.value = await fetchAnimeById(id)
+        } catch (err) {
+            console.error('Error loading anime data: ', err)
+        }
 
+    }
 
     return {
         // Estados
         animes,
-        selectedAnimeId,
+        currentAnime,
         // Computed
-        selectedAnime,
         animeCount,
         // Actions
-        loadAnimes
+        loadAnimes,
+        loadAnimeById
     }
 
 })

@@ -1,5 +1,5 @@
 import {computed, ref} from 'vue'
-import type {IAnimeResponse} from './types'
+import type {IAnimeData, IAnimeResponse, IOnlyAnimeData} from './types'
 import axios from 'axios'
 
 const API_BASE = import.meta.env.VITE_API_URL
@@ -30,8 +30,8 @@ export const useAnimeApi = () => {
         error.value = null
 
         try {
-            const response = await axios.get(`${API_BASE}/anime/${id}`)
-            return response
+            const response = await axios.get<IOnlyAnimeData>(`${API_BASE}/anime/${id}`)
+            return response.data.data
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Unknown error'
             throw err
