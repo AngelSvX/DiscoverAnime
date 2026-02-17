@@ -9,6 +9,8 @@
         Discover Anime
       </h1>
 
+      <iframe src="http://localhost:3000" frameborder="0"></iframe>
+
       <p class="mt-3 text-gray-600 dark:text-zinc-400 max-w-2xl">
         Browse trending and top-rated series in one modern streaming-style
         interface.
@@ -42,8 +44,26 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { useAnimeStore } from "../model/animeStore";
 import MiniAnimeCard from "../ui/MiniAnimeCard.vue";
+
+const router = useRouter();
+
+window.addEventListener("message", (event) => {
+  console.log("here");
+  if (event.origin !== "http://localhost:3000") return;
+
+  console.log(event.data);
+
+  console.log(event.origin);
+
+  if (event.data.type === "NAVIGATE") {
+    router.push({
+      name: event.data.name,
+    });
+  }
+});
 
 const animeStore = useAnimeStore();
 
