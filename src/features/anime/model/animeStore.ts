@@ -9,6 +9,7 @@ export const useAnimeStore = defineStore('anime', () => {
     const animes = ref<IAnimeData[]>([])
     const favoriteAnimes = ref<IAnimeData[]>([])
     const currentAnime = ref<IAnimeData | null>(null)
+    const animesFilters = ref<IAnimeData[]>([])
 
     const loading = ref<boolean>(false)
     const isError = ref<string | null>(null)
@@ -17,7 +18,7 @@ export const useAnimeStore = defineStore('anime', () => {
         animes.value.length
     )
 
-    const { fetchAnimeById, fetchAnimeList, fetchFavoriteAnime } = useAnimeApi()
+    const { fetchAnimeById, fetchAnimeList, fetchFavoriteAnime, fetchFilterAnime } = useAnimeApi()
 
     // Actions
     const loadAnimes = async () => {
@@ -61,6 +62,20 @@ export const useAnimeStore = defineStore('anime', () => {
         }
     }
 
+    const loadFilterAnimes = async (anime: string) => {
+        loading.value = true
+        isError.value = null
+
+        try {
+            animesFilters.value = await fetchFilterAnime(anime)
+        } catch (err) {
+            isError.value = err instanceof Error ? err.message : 'Unknown error'
+        } finally {
+            loading.value = false
+        }
+
+    }
+
     return {
         // Estados
         animes,
@@ -73,7 +88,8 @@ export const useAnimeStore = defineStore('anime', () => {
         // Actions
         loadAnimes,
         loadAnimeById,
-        loadFavoriteAnime
+        loadFavoriteAnime,
+        loadFilterAnimes
     }
 
 })

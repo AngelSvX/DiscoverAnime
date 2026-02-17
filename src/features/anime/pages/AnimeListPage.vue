@@ -2,7 +2,7 @@
   <div
     class="min-h-screen bg-gray-100 dark:bg-zinc-950 transition-colors duration-300"
   >
-    <header class="max-w-7xl mx-auto px-6 pt-5 pb-10">
+    <header class="max-w-7xl mx-auto px-6 pt-5 pb-6">
       <h1
         class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white"
       >
@@ -14,6 +14,10 @@
         interface.
       </p>
     </header>
+
+    <div class="max-w-7xl mx-auto px-6 pb-7 grid grid-cols-4">
+      <SearchInput @search-anime="searchAnime" />
+    </div>
 
     <main class="max-w-7xl mx-auto px-6 pb-20">
       <div v-if="animeStore.loading" class="text-white text-4xl font-bold">
@@ -42,8 +46,18 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
+import SearchInput from "../../../shared/ui/components/SearchInput.vue";
 import { useAnimeStore } from "../model/animeStore";
 import MiniAnimeCard from "../ui/MiniAnimeCard.vue";
+
+let timeout: number | undefined = undefined;
+
+const searchAnime = (anime: string) => {
+  clearTimeout(timeout);
+  timeout = setTimeout( async () => {
+    await animeStore.loadFilterAnimes(anime)
+  }, 4000);
+};
 
 const animeStore = useAnimeStore();
 
