@@ -21,7 +21,7 @@ export const useAnimeApi = () => {
     }
 
     const fetchFilterAnime = async (anime: string) => {
-        const response = await axios.get<IAnimeResponse>(`${API_BASE}anime?q=${anime}`)
+        const response = await axios.get<IAnimeResponse>(`${API_BASE}/anime?q=${anime}`)
         return response.data.data
     }
 

@@ -23,7 +23,6 @@
       <div v-if="animeStore.loading" class="text-white text-4xl font-bold">
         Cargando...
       </div>
-
       <div
         v-if="animeStore.isError"
         class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-xl mb-6"
@@ -35,7 +34,7 @@
         class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
       >
         <MiniAnimeCard
-          v-for="anime in animeStore.animes"
+          v-for="anime in displayedAnimes"
           :key="anime.mal_id"
           :anime="anime"
         />
@@ -45,19 +44,31 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import SearchInput from "../../../shared/ui/components/SearchInput.vue";
 import { useAnimeStore } from "../model/animeStore";
 import MiniAnimeCard from "../ui/MiniAnimeCard.vue";
 
 let timeout: number | undefined = undefined;
+const searchText = ref<string>("");
 
 const searchAnime = (anime: string) => {
+  searchText.value = anime;
   clearTimeout(timeout);
-  timeout = setTimeout( async () => {
-    await animeStore.loadFilterAnimes(anime)
-  }, 4000);
+  timeout = setTimeout(async () => {
+    await animeStore.loadFilterAnimes(anime);
+  }, 1500);
 };
+
+const displayedAnimes = computed(() => {
+  if (searchText.value.trim().length > 0) {
+    if (animeStore.loading) {
+      animeStore.animesFilters = [];
+    }
+    return animeStore.animesFilters;
+  }
+  return animeStore.animes;
+});
 
 const animeStore = useAnimeStore();
 

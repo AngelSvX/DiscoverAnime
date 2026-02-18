@@ -21,6 +21,8 @@ export const useAnimeStore = defineStore('anime', () => {
     const { fetchAnimeById, fetchAnimeList, fetchFavoriteAnime, fetchFilterAnime } = useAnimeApi()
 
     // Actions
+
+    // Async Actions
     const loadAnimes = async () => {
         loading.value = true
         isError.value = null
@@ -83,6 +85,7 @@ export const useAnimeStore = defineStore('anime', () => {
         loading,
         isError,
         favoriteAnimes,
+        animesFilters,
         // Computed
         animeCount,
         // Actions
